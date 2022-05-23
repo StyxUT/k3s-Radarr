@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      #hostNetwork: true
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: multicore
+#                operator: NotIn
+#                values:
+#                - "true"
+      containers:
+      - name: radarr
+        imagePullPolicy: "Always"
+        image: linuxserver/radarr:latest
+        ports:
+        - name: http
+          containerPort: 7878
+          protocol: TCP
+        env:
+        - name: TZ
+          value: "America/Denver"
+        - name: PUID
+          value: "1000"
+        - name: GUID
+          value: "1000"
+        volumeMounts:
+        - name: radarr
+          mountPath: /config
+          subPath: radarr/config
+        - name: synology-video
+          mountPath: /video/Movies
+          subPath: Movies
+        - name: synology-torrents
+          mountPath: /torrents/complete
+          subPath: complete
+      volumes:
+      - name: radarr
+        persistentVolumeClaim:
+          claimName: synology-radarr
+      - name: synology-video
+        persistentVolumeClaim:
+          claimName: synology-video
+      - name: synology-torrents
+        persistentVolumeClaim:
+          claimName: synology-torrents
