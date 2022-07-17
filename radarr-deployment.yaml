@@ -29,8 +29,8 @@ spec:
 #                - "true"
       containers:
       - name: radarr
-        imagePullPolicy: "Always"
-        image: linuxserver/radarr:latest
+        imagePullPolicy: "IfNotPresent"
+        image: binhex/arch-radarr:latest
         ports:
         - name: http
           containerPort: 7878
@@ -39,26 +39,22 @@ spec:
         - name: TZ
           value: "America/Denver"
         - name: PUID
-          value: "1000"
+          value: "555"
         - name: GUID
-          value: "1000"
+          value: "321"
+        - name: UMASK_SET
+          value: "022"
         volumeMounts:
-        - name: radarr
+        - name: k8s-pv01
           mountPath: /config
           subPath: radarr/config
-        - name: synology-video
-          mountPath: /video/Movies
-          subPath: Movies
-        - name: synology-torrents
-          mountPath: /torrents/complete
-          subPath: complete
+        - name: data
+          mountPath: /data
       volumes:
-      - name: radarr
+      - name: k8s-pv01
         persistentVolumeClaim:
-          claimName: synology-radarr
-      - name: synology-video
+          claimName: synology-k8s-pv01
+      - name: data
         persistentVolumeClaim:
-          claimName: synology-video
-      - name: synology-torrents
-        persistentVolumeClaim:
-          claimName: synology-torrents
+          claimName: synology-data
+
