@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  name: synology-radarr 
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: synology-iscsi
+  persistentVolumeReclaimPolicy: Retain
+  iscsi:
+    chapAuthSession: false
+    targetPortal: 192.168.0.2:3260
+    iqn: iqn.2000-01.com.synology:Synology.Sonarr.f81f38e3406 
+    lun: 2 
+    fsType: ext4
+    readOnly: false

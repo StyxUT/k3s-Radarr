@@ -30,7 +30,7 @@ spec:
       containers:
       - name: radarr
         imagePullPolicy: "Always"
-        image: binhex/arch-radarr:latest
+        image: lscr.io/linuxserver/radarr:latest
         ports:
         - name: http
           containerPort: 7878
@@ -38,22 +38,22 @@ spec:
         env:
         - name: TZ
           value: "America/Denver"
-        - name: PUIDd
+        - name: PUID
           value: "555"
-        - name: GUID
+        - name: PGID
           value: "321"
         - name: UMASK_SET
           value: "022"
         volumeMounts:
-        - name: k8s-pv02 
+        - name: synology-radarr
           mountPath: /config
           subPath: radarr/config
         - name: data
           mountPath: /data
       volumes:
-      - name: k8s-pv02 
+      - name: synology-radarr
         persistentVolumeClaim:
-          claimName: synology-k8s-pv02 
+          claimName: synology-radarr 
       - name: data
         persistentVolumeClaim:
           claimName: synology-data
