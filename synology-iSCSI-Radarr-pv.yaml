@@ -14,7 +14,7 @@ spec:
   iscsi:
     chapAuthSession: false
     targetPortal: 192.168.0.2:3260
-    iqn: iqn.2000-01.com.synology:Synology.Sonarr.f81f38e3406 
-    lun: 2 
+    iqn: iqn.2000-02.com.synology:Synology.Radarr.f81f38e3406 
+    lun: 0 
     fsType: ext4
     readOnly: false
