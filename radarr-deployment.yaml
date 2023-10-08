@@ -17,19 +17,9 @@ spec:
       labels:
         app: radarr
     spec:
-      #hostNetwork: true
-#      affinity:
-#        nodeAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            nodeSelectorTerms:
-#            - matchExpressions:
-#              - key: multicore
-#                operator: NotIn
-#                values:
-#                - "true"
       containers:
       - name: radarr
-        imagePullPolicy: "Always"
+        imagePullPolicy: "IfNotPresent"
         image: lscr.io/linuxserver/radarr:latest
         ports:
         - name: http
@@ -50,6 +40,15 @@ spec:
           subPath: radarr/config
         - name: data
           mountPath: /data
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "iSCSI"
+                operator: In
+                values:
+                - "true"
       volumes:
       - name: synology-radarr
         persistentVolumeClaim:
