@@ -35,24 +35,15 @@ spec:
         - name: UMASK_SET
           value: "022"
         volumeMounts:
-        - name: synology-radarr
+        - name: synology-iscsi-radarr
           mountPath: /config
           subPath: radarr/config
         - name: data
           mountPath: /data
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: "iSCSI"
-                operator: In
-                values:
-                - "true"
       volumes:
-      - name: synology-radarr
+      - name: synology-iscsi-radarr
         persistentVolumeClaim:
-          claimName: synology-radarr 
+          claimName: synology-radarr
       - name: data
         persistentVolumeClaim:
           claimName: synology-data
