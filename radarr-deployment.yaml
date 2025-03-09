@@ -17,10 +17,19 @@ spec:
       labels:
         app: radarr
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: tpu
+                operator: NotIn
+                values:
+                - "true"
       containers:
       - name: radarr
         imagePullPolicy: "IfNotPresent"
-        image: lscr.io/linuxserver/radarr:latest
+        image: linuxserver/radarr:latest
         ports:
         - name: http
           containerPort: 7878
