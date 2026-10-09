@@ -20,8 +20,11 @@ retain private-registry CA trust and access to TCP/32050.
 `radarr-existing-lun-pv.yaml` statically binds the dedicated 5 GiB LUN named
 `k8s-csi-pvc-b68ef9fe-333d-4fb4-a930-102f3622189e` using DSM's internal UUID
 `9238a561-1bca-4116-97e5-6f7b378394e7`. The PV reclaim policy is `Retain`.
-Do not delete or recreate the PV/PVC or LUN as a troubleshooting shortcut;
-`/config` contains Radarr's database, settings, and credentials. Back up this
+The previous Radarr configuration is stored in the LUN's `radarr/config`
+subdirectory, which the Deployment mounts at `/config`. Do not mount the LUN
+root instead, or Radarr will initialize a separate empty configuration. Do not
+delete or recreate the PV/PVC or LUN as a troubleshooting shortcut; `/config`
+contains Radarr's database, settings, and credentials. Back up this
 configuration separately from these manifests.
 
 The shared `synology-data` PVC is an external dependency and is not managed in

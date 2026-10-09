@@ -66,6 +66,7 @@ spec:
           volumeMounts:
             - name: radarr-config
               mountPath: /config
+              subPath: radarr/config
             - name: data
               mountPath: /data
       volumes:
